@@ -1,7 +1,7 @@
 {
   "buildCommand": "composer install --ignore-platform-reqs --no-dev && npm install --legacy-peer-deps && npm run build",
   "outputDirectory": "public",
-  "installCommand": "composer install --ignore-platform-reqs --no-dev && npm install --legacy-peer-deps",
+  "installCommand": "npm install --legacy-peer-deps",
   "framework": null,
   "rewrites": [
     { "source": "/(.*)", "destination": "/index.php" }
