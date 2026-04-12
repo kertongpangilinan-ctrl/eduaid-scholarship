@@ -1,0 +1,240 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* EduAid Refined Red Theme - Global CSS Variables */
+:root {
+    /* Primary Colors */
+    --primary: #B91C1C;
+    --primary-dark: #7F1D1D;
+    --primary-light: #FEE2E2;
+    
+    /* Neutral Colors */
+    --neutral-50: #FAFAFA;
+    --neutral-100: #F5F5F5;
+    --neutral-200: #E5E5E5;
+    --neutral-300: #D4D4D4;
+    --neutral-400: #A3A3A3;
+    --neutral-500: #737373;
+    --neutral-600: #525252;
+    --neutral-700: #404040;
+    --neutral-800: #262626;
+    --neutral-900: #171717;
+    
+    /* Semantic Colors */
+    --success: #10B981;
+    --warning: #F59E0B;
+    --error: #EF4444;
+    --info: #3B82F6;
+    
+    /* Spacing */
+    --spacing-xs: 0.25rem;
+    --spacing-sm: 0.5rem;
+    --spacing-md: 1rem;
+    --spacing-lg: 1.5rem;
+    --spacing-xl: 2rem;
+    --spacing-2xl: 3rem;
+    
+    /* Border Radius */
+    --radius-sm: 0.375rem;
+    --radius-md: 0.5rem;
+    --radius-lg: 0.75rem;
+    --radius-xl: 1rem;
+    --radius-2xl: 1.5rem;
+    
+    /* Shadows */
+    --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+    --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+    --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+    --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+    
+    /* Transitions */
+    --transition-fast: 150ms ease;
+    --transition-normal: 250ms ease;
+    --transition-slow: 300ms ease;
+}
+
+[x-cloak] {
+    display none;
+}
+
+/* ============================================
+   TAILWIND COMPONENT CLASSES
+   ============================================ */
+
+@layer components {
+    /* Buttons */
+    .btn {
+        @apply inline-flex items-center justify-center px-6 py-3 rounded-xl font-semibold transition-all duration-250 ease focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed;
+    }
+    
+    .btn-primary {
+        @apply bg-gradient-to-r from-[#B91C1C] to-[#7F1D1D] text-white hover:from-[#7F1D1D] hover:to-[#B91C1C] focus:ring-[#B91C1C];
+    }
+    
+    .btn-secondary {
+        @apply bg-white text-[#7F1D1D] border-2 border-[#B91C1C] hover:bg-[#FEE2E2] focus:ring-[#B91C1C];
+    }
+    
+    .btn-danger {
+        @apply bg-gradient-to-r from-[#EF4444] to-[#DC2626] text-white hover:from-[#DC2626] hover:to-[#EF4444] focus:ring-[#EF4444];
+    }
+    
+    .btn-success {
+        @apply bg-gradient-to-r from-[#10B981] to-[#059669] text-white hover:from-[#059669] hover:to-[#10B981] focus:ring-[#10B981];
+    }
+    
+    .btn-sm {
+        @apply px-4 py-2 text-sm rounded-lg;
+    }
+    
+    .btn-lg {
+        @apply px-8 py-4 text-lg rounded-2xl;
+    }
+    
+    /* Form Inputs */
+    .input {
+        @apply w-full px-4 py-3 rounded-xl border border-[#E5E5E5] text-[#262626] placeholder-[#A3A3A3] transition-all duration-250 ease focus:outline-none focus:border-[#B91C1C] focus:ring-2 focus:ring-[#B91C1C]/20;
+    }
+    
+    .input-error {
+        @apply border-[#EF4444] focus:border-[#EF4444] focus:ring-[#EF4444]/20;
+    }
+    
+    .input-success {
+        @apply border-[#10B981] focus:border-[#10B981] focus:ring-[#10B981]/20;
+    }
+    
+    .label {
+        @apply block text-sm font-semibold text-[#404040] mb-2;
+    }
+    
+    .form-group {
+        @apply mb-4;
+    }
+    
+    .error-message {
+        @apply mt-1 text-sm text-[#EF4444];
+    }
+    
+    /* Cards */
+    .card {
+        @apply bg-white rounded-2xl shadow-md border border-[#E5E5E5] overflow-hidden;
+    }
+    
+    .card-header {
+        @apply px-6 py-4 border-b border-[#E5E5E5] bg-gradient-to-r from-[#FAFAFA] to-[#F5F5F5];
+    }
+    
+    .card-body {
+        @apply p-6;
+    }
+    
+    .card-footer {
+        @apply px-6 py-4 border-t border-[#E5E5E5] bg-[#FAFAFA];
+    }
+    
+    /* Tables */
+    .table-container {
+        @apply bg-white rounded-2xl shadow-md border border-[#E5E5E5] overflow-hidden;
+    }
+    
+    .table {
+        @apply w-full;
+    }
+    
+    .table thead {
+        @apply bg-gradient-to-r from-[#FAFAFA] to-[#F5F5F5];
+    }
+    
+    .table th {
+        @apply px-6 py-4 text-left text-xs font-semibold text-[#525252] uppercase tracking-wider;
+    }
+    
+    .table tbody {
+        @apply divide-y divide-[#E5E5E5];
+    }
+    
+    .table td {
+        @apply px-6 py-4 text-sm text-[#262626];
+    }
+    
+    .table tr {
+        @apply hover:bg-[#FEE2E2] transition-colors duration-250 ease;
+    }
+    
+    /* Typography */
+    .heading-1 {
+        @apply text-3xl font-bold text-[#171717];
+    }
+    
+    .heading-2 {
+        @apply text-2xl font-bold text-[#262626];
+    }
+    
+    .heading-3 {
+        @apply text-xl font-semibold text-[#404040];
+    }
+    
+    .heading-4 {
+        @apply text-lg font-semibold text-[#525252];
+    }
+    
+    .text-body {
+        @apply text-base text-[#525252];
+    }
+    
+    .text-muted {
+        @apply text-sm text-[#737373];
+    }
+    
+    .text-small {
+        @apply text-xs text-[#A3A3A3];
+    }
+    
+    /* Badges */
+    .badge {
+        @apply inline-flex items-center px-3 py-1.5 rounded-full text-xs font-bold;
+    }
+    
+    .badge-primary {
+        @apply bg-[#FEE2E2] text-[#B91C1C];
+    }
+    
+    .badge-success {
+        @apply bg-[#D1FAE5] text-[#10B981];
+    }
+    
+    .badge-warning {
+        @apply bg-[#FEF3C7] text-[#F59E0B];
+    }
+    
+    .badge-danger {
+        @apply bg-[#FEE2E2] text-[#EF4444];
+    }
+    
+    .badge-info {
+        @apply bg-[#DBEAFE] text-[#3B82F6];
+    }
+    
+    /* Modal */
+    .modal-overlay {
+        @apply fixed inset-0 bg-black/50 flex items-center justify-center z-50;
+    }
+    
+    .modal-content {
+        @apply bg-white rounded-2xl shadow-2xl max-w-md w-full mx-4 overflow-hidden transform transition-all;
+    }
+    
+    .modal-header {
+        @apply px-6 py-4 border-b border-[#E5E5E5] bg-gradient-to-r from-[#B91C1C] to-[#7F1D1D];
+    }
+    
+    .modal-body {
+        @apply p-6;
+    }
+    
+    .modal-footer {
+        @apply px-6 py-4 border-t border-[#E5E5E5] bg-[#FAFAFA];
+    }
+}

@@ -1,0 +1,827 @@
+================================================================================
+                    SCHOLARSHIP REGISTRATION SYSTEM FLOW
+                         EduAid - Mayor Sherry Ann Bolisay
+                          Scholarship Program
+================================================================================
+
+TABLE OF CONTENTS
+=================
+1. OVERVIEW
+2. REGISTRATION FORM DESIGN (CARD-BY-CARD PROGRESS)
+3. MULTI-STEP FORM FLOW
+4. REAL-TIME VALIDATION SYSTEM
+5. AUTO-CAPITALIZATION FEATURES
+6. EDUCATIONAL INFORMATION FLOW
+7. REFERENCE NUMBER SYSTEM
+8. FILE UPLOAD SYSTEM
+9. FORM PERSISTENCE AND DATA SAVING
+10. PRIVACY AGREEMENT AND SUBMISSION
+11. ERROR HANDLING AND VALIDATION
+12. TECHNICAL IMPLEMENTATION DETAILS
+
+================================================================================
+1. OVERVIEW
+================================================================================
+
+The EduAid Scholarship Registration System is a comprehensive 7-step multi-step
+form designed to collect applicant information efficiently while providing real-time
+validation and user-friendly feedback.
+
+KEY FEATURES:
+- Multi-step card-based design (7 steps)
+- Real-time username and email validation
+- Auto-capitalization for proper names
+- Conditional form fields based on education level
+- File upload with temporary persistence
+- Reference number generation and tracking
+- Privacy agreement compliance
+- Form data persistence across page reloads
+
+================================================================================
+2. REGISTRATION FORM DESIGN (CARD-BY-CARD PROGRESS)
+================================================================================
+
+The registration form uses a modern card-based design with visual progress indicators.
+
+DESIGN ELEMENTS:
+- Glassmorphism effect with gradient backgrounds
+- Floating labels for input fields
+- Smooth transitions between steps
+- Color-coded step indicators (gray = pending, blue = active, green = completed)
+- Responsive design for mobile and desktop
+- Animated background blobs for visual appeal
+
+STEP PROGRESS INDICATORS:
+- Located at the top of the form
+- Numbered circles (1-7) showing current step
+- Green color for completed steps (no text "check", just color change)
+- Blue color for active step
+- Gray color for pending steps
+- Automatic update as user progresses
+
+================================================================================
+3. MULTI-STEP FORM FLOW
+================================================================================
+
+STEP 1: ACCOUNT INFORMATION
+-----------------------------
+Fields:
+- Username (6-20 alphanumeric characters)
+- Password (minimum 8 characters with complexity requirements)
+- Confirm Password (must match password)
+- Email Address (valid email format)
+- Email Verification (OTP verification required)
+
+Validation:
+- Real-time username availability check via API
+- Real-time email availability check via API
+- Password strength validation
+- Password match validation
+- Email format validation
+- Email OTP verification before proceeding
+
+Navigation:
+- "Next" button disabled until all fields are valid and email is verified
+- Real-time validation feedback with icons and messages
+
+STEP 2: PERSONAL INFORMATION
+-----------------------------
+Fields:
+- Last Name (auto-capitalized)
+- First Name (auto-capitalized)
+- Middle Name (auto-capitalized)
+- Extension Name (optional, auto-capitalized)
+- Gender (dropdown: Male, Female)
+- Date of Birth (date picker)
+- Civil Status (dropdown: Single, Married, Widowed, Separated)
+- Contact Number (11-digit mobile number)
+
+Validation:
+- Required fields validation
+- Date of birth validation (must be at least 13 years old)
+- Contact number format validation (11 digits, starts with 09)
+- Auto-capitalization for name fields
+
+Navigation:
+- "Next" button validates all required fields
+- Shows error messages for invalid fields
+
+STEP 3: ADDRESS INFORMATION
+-----------------------------
+Fields:
+- House Number/Street
+- Barangay
+- City/Municipality
+- Province
+- Region
+- Zip Code
+
+Validation:
+- All fields are required
+- Zip code must be numeric (4-5 digits)
+
+Navigation:
+- Standard step validation
+
+STEP 4: FAMILY INFORMATION
+---------------------------
+Fields:
+- Father's Name (auto-capitalized)
+- Father's Occupation (auto-capitalized)
+- Father's Monthly Income (numeric)
+- Father's Contact Number (optional)
+- Mother's Name (auto-capitalized)
+- Mother's Occupation (auto-capitalized)
+- Mother's Monthly Income (numeric)
+- Mother's Contact Number (optional)
+- Siblings Information (dynamic add/remove)
+
+Siblings Section:
+- Dynamic form allowing multiple siblings
+- Each sibling has: Name (auto-capitalized), Age, Education Level, School/Work
+- "Add Sibling" button to add more siblings
+- "Remove" button for each sibling entry
+
+Validation:
+- Parent information required
+- Monthly income must be numeric
+- At least one sibling is required
+
+Navigation:
+- Validates parent information
+- Ensures at least one sibling is added
+
+STEP 5: EDUCATIONAL INFORMATION
+--------------------------------
+Fields:
+- Education Level (dropdown: Incoming First Year College, College Student)
+- School Name (auto-capitalized)
+- School Address
+- Course/Strand (auto-capitalized)
+
+CONDITIONAL FIELDS BASED ON EDUCATION LEVEL:
+
+IF "Incoming First Year College" is selected:
+- Additional section appears: "Senior High School Information"
+  - 11-Digit LRN (Learner Reference Number) - exactly 11 digits
+  - Senior High Strand (dropdown: STEM, ABM, HUMSS, GAS, TVL, SPORTS, ARTS & DESIGN)
+  - Year Level (dropdown: 1st Year, 2nd Year, 3rd Year, 4th Year) - hidden
+  - Current Semester (dropdown: 1st Semester, 2nd Semester, Summer) - hidden
+
+IF "College Student" is selected:
+- Additional fields appear:
+  - Year Level (dropdown: 1st Year, 2nd Year, 3rd Year, 4th Year)
+  - Current Semester (dropdown: 1st Semester, 2nd Semester, Summer)
+  - Semester Type (dropdown: 2 Semesters, 3 Semesters)
+- Senior High School Information section remains hidden
+
+VALIDATION:
+- Education level is required
+- School name and address are required
+- Course/Strand is required
+- LRN validation (exactly 11 digits) if Incoming First Year
+- Year Level and Semester validation if College Student
+
+STEP 6: DOCUMENT UPLOAD
+------------------------
+Fields:
+- Proof of Residency (JPG/PNG, max 2MB) - REQUIRED
+- 2x2 Picture (JPG/PNG, max 1MB) - REQUIRED
+- School ID Front (JPG/PNG, max 2MB) - REQUIRED
+- School ID Back (JPG/PNG, max 2MB) - REQUIRED
+- Letter of Intent (JPG/PNG, max 2MB) - REQUIRED
+- Recent Grades (JPG/PNG, max 2MB) - REQUIRED
+- Signature (JPG/PNG, max 1MB) - REQUIRED
+- COR/COE (JPG/PNG, max 2MB) - REQUIRED
+
+FEATURES:
+- File type validation (JPG/PNG only)
+- File size validation
+- Real-time file name display after upload
+- Upload success feedback (green checkmark)
+- Temporary file persistence (files saved as base64 in localStorage)
+- Files persist across page reloads
+- Automatic file restoration on page load
+
+VALIDATION:
+- All documents are required
+- File format validation
+- File size validation
+
+STEP 7: PRIVACY AGREEMENT AND SUBMIT
+-------------------------------------
+Content:
+- Privacy Rules and Regulations display
+- Data Privacy Act compliance notice
+- Information usage consent
+- False information disclaimer
+- Document ownership notice
+
+Features:
+- Checkbox for privacy agreement (required)
+- Information about reference number and email notification
+- Submit Application button
+
+VALIDATION:
+- Privacy agreement checkbox must be checked
+- All previous steps must be completed
+
+================================================================================
+4. REAL-TIME VALIDATION SYSTEM
+================================================================================
+
+USERNAME VALIDATION:
+--------------------
+Process:
+1. User types in username field
+2. Debounced by 300ms (waits for user to stop typing)
+3. Client-side validation (6-20 characters, alphanumeric only)
+4. AJAX request to /api/validate/username
+5. Server checks database for existing username
+6. Returns JSON response: {valid: true/false, message: "..."}
+7. UI updates with:
+   - Green checkmark + "Username available" if valid
+   - Red X + "Username already taken" if invalid
+   - Yellow spinner + "Checking availability..." during validation
+
+Error Handling:
+- 5-second timeout on AJAX requests
+- Fallback to client-side validation if API fails
+- Graceful error handling
+
+EMAIL VALIDATION:
+-----------------
+Process:
+1. User types in email field
+2. Debounced by 300ms
+3. Client-side validation (email format regex)
+4. AJAX request to /api/validate/email
+5. Server checks database for existing email
+6. Returns JSON response: {valid: true/false, message: "..."}
+7. UI updates with:
+   - Green checkmark + "Email available" if valid
+   - Red X + "Email already registered" if invalid
+   - Yellow spinner + "Checking availability..." during validation
+
+Error Handling:
+- 5-second timeout on AJAX requests
+- Fallback to client-side validation if API fails
+- Graceful error handling
+
+PASSWORD VALIDATION:
+--------------------
+Process:
+1. Real-time validation as user types
+2. Minimum 8 characters
+3. At least one uppercase letter
+4. At least one lowercase letter
+5. At least one number
+6. At least one special character
+7. UI updates with strength meter and messages
+
+PASSWORD MATCH VALIDATION:
+---------------------------
+Process:
+1. Real-time validation as user types in confirmation field
+2. Compares with password field
+3. UI updates with:
+   - Green checkmark if passwords match
+   - Red X if passwords don't match
+
+================================================================================
+5. AUTO-CAPITALIZATION FEATURES
+================================================================================
+
+AUTO-CAPITALIZED FIELDS:
+------------------------
+The following fields automatically capitalize the first letter of each word
+as the user types:
+
+Personal Information:
+- Last Name
+- First Name
+- Middle Name
+- Extension Name
+
+Family Information:
+- Father's Name
+- Father's Occupation
+- Mother's Name
+- Mother's Occupation
+- Sibling Names (dynamic)
+
+Educational Information:
+- School Name
+- Course/Strand
+
+IMPLEMENTATION:
+---------------
+JavaScript event listeners on input fields:
+- Converts input to title case
+- Maintains cursor position
+- Applies on 'input' event
+- Example: "juan dela cruz" → "Juan Dela Cruz"
+
+BENEFITS:
+---------
+- Consistent data formatting
+- Professional appearance
+- Easier data processing
+- Reduces user error
+
+================================================================================
+6. EDUCATIONAL INFORMATION FLOW
+================================================================================
+
+FLOW DIAGRAM:
+-------------
+
+User selects Education Level
+         |
+         v
+    ┌─────────────────────────┐
+    │  Education Level Dropdown │
+    └─────────────────────────┘
+         |
+         +---------------------+
+         |                     |
+         v                     v
+  "Incoming First Year    "College Student"
+       College"                 |
+         |                     |
+         v                     v
+  ┌──────────────┐      ┌──────────────┐
+  │ SHS Info     │      │ College Info │
+  │ Section      │      │ Section      │
+  └──────────────┘      └──────────────┘
+         |                     |
+         v                     v
+  ┌──────────────┐      ┌──────────────┐
+  │ - LRN (11    │      │ - Year Level │
+  │   digits)    │      │ - Current    │
+  │ - SHS Strand │      │   Semester   │
+  │              │      │ - Semester   │
+  │ (Year Level  │      │   Type       │
+  │  hidden)     │      │              │
+  │ (Semester    │      │ (SHS Info    │
+  │  hidden)     │      │  hidden)     │
+  └──────────────┘      └──────────────┘
+
+DETAILED FLOW:
+--------------
+
+1. USER SELECTS "INCOMING FIRST YEAR COLLEGE":
+   - Form shows: School Name, School Address, Course/Strand
+   - Additional section appears: "Senior High School Information"
+   - SHS Section fields:
+     * 11-Digit LRN (required, exactly 11 digits, numeric only)
+     * Senior High Strand (dropdown with options)
+   - Hidden fields:
+     * Year Level (not applicable for incoming first year)
+     * Current Semester (not applicable for incoming first year)
+   - Validation:
+     * LRN must be exactly 11 digits
+     * SHS Strand must be selected
+     * School information must be complete
+
+2. USER SELECTS "COLLEGE STUDENT":
+   - Form shows: School Name, School Address, Course/Strand
+   - Additional fields appear:
+     * Year Level (dropdown: 1st Year, 2nd Year, 3rd Year, 4th Year)
+     * Current Semester (dropdown: 1st Semester, 2nd Semester, Summer)
+     * Semester Type (dropdown: 2 Semesters, 3 Semesters)
+   - Hidden section:
+     * Senior High School Information (not applicable)
+   - Validation:
+     * Year Level must be selected
+     * Current Semester must be selected
+     * Semester Type must be selected
+     * School information must be complete
+
+3. DYNAMIC SEMESTER OPTIONS:
+   - When "2 Semesters" is selected:
+     * Current Semester options: 1st Semester, 2nd Semester
+   - When "3 Semesters" is selected:
+     * Current Semester options: 1st Semester, 2nd Semester, Summer
+
+IMPLEMENTATION DETAILS:
+-----------------------
+JavaScript function: updateEducationFields()
+- Listens for changes in education_level dropdown
+- Shows/hides conditional sections based on selection
+- Adds/removes required attributes dynamically
+- Updates validation rules accordingly
+- Auto-saves form data on change
+
+================================================================================
+7. REFERENCE NUMBER SYSTEM
+================================================================================
+
+REFERENCE NUMBER GENERATION:
+----------------------------
+Format: REG-{timestamp}
+Example: REG-1715234567890
+
+Generation Process:
+1. User submits registration form
+2. Form data is validated on server
+3. Reference number is generated using timestamp
+4. Reference number is saved with application record
+5. Reference number is sent to user's email
+6. Reference number is displayed in success modal
+
+REFERENCE NUMBER MODAL:
+-----------------------
+Features:
+- Displays after successful form submission
+- Shows reference number in read-only input field
+- "Copy" button to copy reference number to clipboard
+- Visual feedback when copied (button turns green)
+- Information about tracking application status
+- Link to track application page
+- Modal auto-closes after 2 seconds
+
+Modal Content:
+- Success message with icon
+- Reference number display field
+- Copy button
+- Information: "Save this reference number to track your application status"
+- Application status: "Pending"
+- "Track Application Status" button
+
+EMAIL NOTIFICATION:
+-------------------
+When reference number is generated:
+- Email is sent to user's registered email address
+- Email contains:
+  * Reference number
+  * Application status (Pending)
+  * Instructions on how to track application
+  * Link to track application page
+  * Expected timeline for review
+
+APPLICATION TRACKING:
+---------------------
+Homepage Features:
+- "Track Application" button opens modal
+- User enters reference number
+- AJAX request to /application-status/{reference_number}
+- Displays application details:
+  * Reference number
+  * Applicant name
+  * Email address
+  * Application status (color-coded)
+  * Submission date
+
+Status Colors:
+- Pending Verification: Yellow
+- Pending Admin Approval: Blue
+- Under Review: Orange
+- Approved: Green
+- Rejected: Red
+
+================================================================================
+8. FILE UPLOAD SYSTEM
+================================================================================
+
+FILE UPLOAD PROCESS:
+--------------------
+1. User selects file from device
+2. File type validation (JPG/PNG only)
+3. File size validation (specific limits per file type)
+4. File is converted to base64 for temporary storage
+5. File data is saved to localStorage
+6. File name is displayed to user
+7. Upload success feedback is shown
+8. File is ready for form submission
+
+FILE PERSISTENCE:
+-----------------
+Temporary Storage:
+- Files are saved as base64 in localStorage
+- Complete file data preserved: name, size, type, content
+- Files persist across page reloads
+- Files persist even if browser is closed (until cleared)
+
+File Restoration:
+- On page load, localStorage is checked for saved file data
+- Base64 data is converted back to File objects
+- Files are restored to their respective input fields
+- File names are displayed
+- Validation state is maintained
+
+Benefits:
+- Users don't lose uploaded files if page reloads
+- Better user experience
+- Reduces frustration
+- Professional workflow
+
+FILE SPECIFICATIONS:
+-------------------
+Proof of Residency:
+- Format: JPG/PNG
+- Max Size: 2MB
+- Required: Yes
+
+2x2 Picture:
+- Format: JPG/PNG
+- Max Size: 1MB
+- Required: Yes
+
+School ID Front:
+- Format: JPG/PNG
+- Max Size: 2MB
+- Required: Yes
+
+School ID Back:
+- Format: JPG/PNG
+- Max Size: 2MB
+- Required: Yes
+
+Letter of Intent:
+- Format: JPG/PNG
+- Max Size: 2MB
+- Required: Yes
+
+Recent Grades:
+- Format: JPG/PNG
+- Max Size: 2MB
+- Required: Yes
+
+Signature:
+- Format: JPG/PNG
+- Max Size: 1MB
+- Required: Yes
+
+COR/COE:
+- Format: JPG/PNG
+- Max Size: 2MB
+- Required: Yes
+
+UPLOAD FEEDBACK:
+-----------------
+Visual Feedback:
+- Green checkmark icon
+- File name display
+- "File uploaded successfully" message
+- Auto-hide after 3 seconds
+
+Technical Implementation:
+- JavaScript event listener on file input change
+- FileReader API for base64 conversion
+- localStorage for persistence
+- DataTransfer API for file restoration
+
+================================================================================
+9. FORM PERSISTENCE AND DATA SAVING
+================================================================================
+
+AUTO-SAVE MECHANISM:
+--------------------
+Trigger Events:
+- Input changes (text, select, textarea)
+- File uploads
+- Email verification status
+- Step navigation
+
+Saved Data:
+- Current step number
+- All form field values (except files)
+- File names (for display)
+- File data (base64 encoded)
+- Email verification status
+
+Storage Location:
+- localStorage key: 'registrationFormData'
+- JSON format
+- Persists across browser sessions
+
+FORM RESTORATION:
+-----------------
+On Page Load:
+1. Check localStorage for saved data
+2. Parse JSON data
+3. Restore current step
+4. Restore all field values
+5. Restore file names
+6. Restore file objects from base64
+7. Restore email verification status
+8. Trigger validation for restored fields
+9. Update step indicators
+10. Show notification: "Form data restored from previous session"
+
+FORM CLEARING:
+--------------
+Clear Triggers:
+- Successful form submission
+- Reference modal displayed (after 2 seconds)
+- Manual "Clear Form Data" button
+
+Clear Process:
+1. Clear localStorage
+2. Reset all form fields
+3. Clear validation feedback
+4. Reset validation icons
+5. Reset input field classes
+6. Reset step indicators to first step
+7. Go back to step 1
+8. Show success notification
+
+================================================================================
+10. PRIVACY AGREEMENT AND SUBMISSION
+================================================================================
+
+PRIVACY AGREEMENT CONTENT:
+---------------------------
+The privacy agreement includes:
+
+1. Data Privacy Act Compliance:
+   - "I understand that my personal information will be collected and 
+     processed in accordance with the Data Privacy Act of 2012."
+
+2. Information Usage Consent:
+   - "I consent to the use of my information for the purpose of my 
+     scholarship application and verification."
+
+3. False Information Disclaimer:
+   - "I acknowledge that providing false information may result in 
+     immediate disqualification and legal action."
+
+4. Document Ownership:
+   - "I understand that all submitted documents become the property of 
+     the scholarship program."
+
+SUBMISSION PROCESS:
+--------------------
+1. User completes all 7 steps
+2. User checks privacy agreement checkbox (required)
+3. User clicks "Submit Application" button
+4. Form validation runs (all fields checked)
+5. If validation passes:
+   - Form data is sent to server via POST
+   - Files are uploaded
+   - Reference number is generated
+   - Email is sent with reference number
+   - Success modal is displayed
+   - Form is cleared for next applicant
+6. If validation fails:
+   - Error messages are shown
+   - User must fix errors before resubmitting
+
+SUCCESS MODAL:
+--------------
+Content:
+- Success message with icon
+- Reference number display
+- Copy button
+- Information about email notification
+- Application status (Pending)
+- "Track Application Status" button
+- Auto-close after 2 seconds
+
+================================================================================
+11. ERROR HANDLING AND VALIDATION
+================================================================================
+
+CLIENT-SIDE VALIDATION:
+------------------------
+Real-time Validation:
+- Username availability (AJAX)
+- Email availability (AJAX)
+- Password strength
+- Password match
+- Email format
+- Required fields
+- File type and size
+
+Step Validation:
+- Each step validates before allowing navigation to next step
+- Invalid fields are highlighted with red border
+- Error messages are displayed below fields
+- "Next" button disabled until all fields are valid
+
+SERVER-SIDE VALIDATION:
+------------------------
+Form Submission:
+- All fields are validated on server
+- Files are validated for type and size
+- Database checks for duplicates
+- CSRF token validation
+- Required field validation
+
+Error Handling:
+- Validation errors returned with specific messages
+- Files rejected if invalid
+- User redirected to form with errors displayed
+- Old input values preserved for correction
+
+AJAX ERROR HANDLING:
+--------------------
+Timeout Handling:
+- 5-second timeout on validation requests
+- Fallback to client-side validation if timeout
+- User informed of network issues
+
+API Errors:
+- Graceful error handling
+- User-friendly error messages
+- Retry mechanism suggested
+- Console logging for debugging
+
+================================================================================
+12. TECHNICAL IMPLEMENTATION DETAILS
+================================================================================
+
+FRONTEND TECHNOLOGIES:
+---------------------
+- HTML5
+- CSS3 (Tailwind CSS + Custom CSS)
+- JavaScript (Vanilla ES6+)
+- Blade Templating (Laravel)
+
+KEY JAVASCRIPT FUNCTIONS:
+--------------------------
+- saveFormData(): Saves form data to localStorage
+- loadFormData(): Restores form data from localStorage
+- validateUsername(): Real-time username validation
+- validateEmail(): Real-time email validation
+- validatePassword(): Password strength validation
+- validatePasswordMatch(): Password match validation
+- updateValidation(): Updates UI based on validation results
+- showStep(): Displays specific step
+- nextStep(): Validates and moves to next step
+- prevStep(): Moves to previous step
+- updateEducationFields(): Handles education level conditional fields
+- autoSave(): Triggers form data save
+- clearFormData(): Clears all form data and localStorage
+- showReferenceModal(): Displays reference number modal
+- copyReferenceNumber(): Copies reference number to clipboard
+
+BACKEND TECHNOLOGIES:
+---------------------
+- Laravel 12.x Framework
+- MySQL Database
+- PHP 8.x
+
+API ENDPOINTS:
+--------------
+- POST /register - Form submission
+- GET /api/validate/username - Username validation
+- GET /api/validate/email - Email validation
+- POST /api/send-otp - Send OTP for email verification
+- POST /api/verify-otp - Verify OTP
+- GET /application-status/{reference_number} - Track application
+
+DATABASE TABLES:
+----------------
+- users (applicant accounts)
+- applications (scholarship applications)
+- documents (uploaded files)
+- family_information (parent and sibling data)
+- educational_information (school and education details)
+
+SECURITY MEASURES:
+------------------
+- CSRF protection on all forms
+- XSS protection (Blade auto-escaping)
+- SQL injection protection (Eloquent ORM)
+- File upload validation (type, size)
+- Password hashing (bcrypt)
+- Rate limiting on API endpoints
+- Input sanitization
+
+RESPONSIVE DESIGN:
+------------------
+- Mobile-first approach
+- Breakpoints: sm (640px), md (768px), lg (1024px)
+- Grid layouts adapt to screen size
+- Touch-friendly buttons on mobile
+- Optimized for tablets and smartphones
+
+PERFORMANCE OPTIMIZATIONS:
+---------------------------
+- Debounced AJAX requests (300ms)
+- Lazy loading of images
+- Optimized CSS and JavaScript
+- Efficient DOM manipulation
+- localStorage for fast data access
+- Minified assets in production
+
+ACCESSIBILITY:
+--------------
+- ARIA labels for form elements
+- Keyboard navigation support
+- Screen reader friendly
+- High contrast ratios
+- Clear error messages
+- Focus indicators
+
+================================================================================
+END OF DOCUMENTATION
+================================================================================
+
+DOCUMENT VERSION: 1.0
+LAST UPDATED: April 9, 2026
+SYSTEM: EduAid Scholarship Registration System
+DEVELOPED BY: EduAid Development Team
+PURPOSE: Complete Registration Flow Documentation
