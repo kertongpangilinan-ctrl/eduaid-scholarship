@@ -18,9 +18,7 @@ cmds = [
   "php artisan storage:link",
   "php artisan config:clear",
   "php artisan view:cache",
-  "php artisan package:discover --ansi",
-  "php artisan migrate --force",
-  "php artisan db:seed --force"
+  "php artisan package:discover --ansi"
 ]
 
 [start]
@@ -32,4 +30,5 @@ timeout = 300
 
 [variables]
 APP_URL = "https://eduaid-scholarship-production.up.railway.app"
+DB_CONNECTION = "mysql"
 PHPIZE_DEPS = "libpng-dev libonig-dev"
