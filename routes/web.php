@@ -39,7 +39,7 @@ Route::middleware(['guest:web'])->group(function () {
     Route::post('/forgot-password', [ForgotPasswordController::class, 'sendOTP'])->name('password.email');
     Route::get('/verify-otp-password', [ForgotPasswordController::class, 'showOTPForm'])->name('password.otp');
     Route::post('/verify-otp-password', [ForgotPasswordController::class, 'verifyOTP'])->name('password.verify');
-    Route::get('/reset-password', [ForgotPasswordController::class, 'showResetForm'])->name('password.reset');
+    Route::get('/reset-password', [ForgotPasswordController::class, 'showResetForm'])->name('password.reset.form');
     Route::post('/reset-password', [ForgotPasswordController::class, 'resetPassword'])->name('password.update');
 });
 
