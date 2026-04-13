@@ -1,24 +1,25 @@
-# Cache bust: 2024-04-13-v2
+# Cache bust: 2025-nginx-fpm-v1
 [phases.setup]
-nixPkgs = ["php", "phpPackages.composer", "nodejs_22", "npm-10_x", "nginx", "libmysqlclient"]
+nixPkgs = ["php", "phpPackages.composer", "phpPackages.php-fpm", "nodejs_22", "npm-10_x", "nginx", "libmysqlclient", "gettext"]
 
 [phases.install]
 cmds = [
   "mkdir -p /var/log/nginx",
   "mkdir -p /var/cache/nginx",
   "mkdir -p bootstrap/cache",
-  "chmod -R 777 bootstrap/cache",
+  "chmod -R 777 bootstrap/cache storage",
   "composer install --ignore-platform-reqs --no-dev --no-scripts",
   "npm install --legacy-peer-deps"
 ]
 
 [phases.build]
 cmds = [
-  "npm run build"
+  "npm run build",
+  "chmod +x /app/start.sh"
 ]
 
 [start]
-cmd = "sh -c 'echo \"APP_NAME=Laravel\" > .env && echo \"APP_ENV=production\" >> .env && echo \"APP_KEY=$APP_KEY\" >> .env && echo \"APP_DEBUG=false\" >> .env && echo \"APP_URL=$APP_URL\" >> .env && echo \"DB_CONNECTION=mysql\" >> .env && echo \"DB_HOST=${DB_HOST#*=}\" >> .env && echo \"DB_PORT=${DB_PORT#*=}\" >> .env && echo \"DB_DATABASE=${DB_DATABASE#*=}\" >> .env && echo \"DB_USERNAME=${DB_USERNAME#*=}\" >> .env && echo \"DB_PASSWORD=${DB_PASSWORD#*=}\" >> .env && php artisan storage:link && php artisan config:clear && php artisan view:cache && php artisan package:discover --ansi && php artisan migrate --force && php artisan db:seed --force && php artisan serve --host=0.0.0.0 --port=$PORT'"
+cmd = "/app/start.sh"
 
 [healthcheck]
 path = "/"
@@ -27,4 +28,3 @@ timeout = 300
 [variables]
 APP_URL = "https://eduaid-scholarship-production.up.railway.app"
 APP_KEY = "base64:abcdefghijklmnopqrstuvwxyz1234567890ABCDEFGHIJKLMNOPQRSTUVWXYZ"
-PHPIZE_DEPS = "libpng-dev libonig-dev"
