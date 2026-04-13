@@ -18,7 +18,8 @@ cmds = [
   "php artisan key:generate --force",
   "php artisan storage:link",
   "php artisan config:clear",
-  "php artisan view:cache"
+  "php artisan view:cache",
+  "php artisan migrate --force"
 ]
 
 [start]
