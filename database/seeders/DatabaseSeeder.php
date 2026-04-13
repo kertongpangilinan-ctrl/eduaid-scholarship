@@ -15,8 +15,8 @@ class DatabaseSeeder extends Seeder
         User::create([
             'name' => 'Admin User',
             'username' => 'admin',
-            'email' => 'admin@eduaid.com',
-            'password' => Hash::make('password'),
+            'email' => 'EduAid@gmail.com',
+            'password' => Hash::make('EduAid-SDK2026'),
             'role' => 'admin',
             'account_status' => 'approved',
             'email_verified_at' => now(),
