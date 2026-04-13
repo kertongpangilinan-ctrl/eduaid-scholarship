@@ -31,4 +31,5 @@ path = "/"
 timeout = 300
 
 [variables]
+APP_URL = "https://eduaid-scholarship-production.up.railway.app"
 PHPIZE_DEPS = "libpng-dev libonig-dev"
