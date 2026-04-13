@@ -11,24 +11,27 @@ class DatabaseSeeder extends Seeder
 {
     public function run(): void
     {
-        // Create admin user
-        User::create([
-            'name' => 'Admin User',
-            'username' => 'admin',
-            'email' => 'EduAid@gmail.com',
-            'password' => Hash::make('EduAid-SDK2026'),
-            'role' => 'admin',
-            'account_status' => 'approved',
-            'email_verified_at' => now(),
-        ]);
+        // Create admin user if not exists
+        User::firstOrCreate(
+            ['email' => 'EduAid@gmail.com'],
+            [
+                'name' => 'Admin User',
+                'username' => 'admin',
+                'password' => Hash::make('EduAid-SDK2026'),
+                'role' => 'admin',
+                'account_status' => 'approved',
+                'email_verified_at' => now(),
+            ]
+        );
 
-        // Create sample batch
-        Batch::create([
-            'academic_year' => '2025-2026',
-            'batch_number' => 1,
-            'status' => 'active',
-            'start_date' => now(),
-            'end_date' => now()->addYear(),
-        ]);
+        // Create sample batch if not exists
+        Batch::firstOrCreate(
+            ['batch_number' => 1, 'academic_year' => '2025-2026'],
+            [
+                'status' => 'active',
+                'start_date' => now(),
+                'end_date' => now()->addYear(),
+            ]
+        );
     }
 }
