@@ -5,6 +5,8 @@ nixPkgs = ["php", "phpPackages.composer", "nodejs_22", "npm-10_x", "nginx", "lib
 cmds = [
   "mkdir -p /var/log/nginx",
   "mkdir -p /var/cache/nginx",
+  "mkdir -p bootstrap/cache",
+  "chmod -R 777 bootstrap/cache",
   "composer install --ignore-platform-reqs --no-dev",
   "npm install --legacy-peer-deps"
 ]
