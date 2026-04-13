@@ -18,7 +18,7 @@ cmds = [
 ]
 
 [start]
-cmd = "sh -c 'php artisan storage:link && php artisan config:clear && php artisan view:cache && php artisan package:discover --ansi && php artisan migrate --force && php artisan db:seed --force && php artisan serve --host=0.0.0.0 --port=$PORT'"
+cmd = "sh -c 'export DB_HOST=$(echo $DB_HOST | sed \"s/^=//\") && export DB_PORT=$(echo $DB_PORT | sed \"s/^=//\") && export DB_DATABASE=$(echo $DB_DATABASE | sed \"s/^=//\") && export DB_USERNAME=$(echo $DB_USERNAME | sed \"s/^=//\") && export DB_PASSWORD=$(echo $DB_PASSWORD | sed \"s/^=//\") && php artisan storage:link && php artisan config:clear && php artisan view:cache && php artisan package:discover --ansi && php artisan migrate --force && php artisan db:seed --force && php artisan serve --host=0.0.0.0 --port=$PORT'"
 
 [healthcheck]
 path = "/"
